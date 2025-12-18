@@ -3,12 +3,14 @@ import { theme } from '@/constants/constant';
 import { TimerStatus } from '@/types';
 import { Fontisto } from '@expo/vector-icons';
 
-const ActiveButton = ({ status, percent, onPress }: { status: TimerStatus, percent: number, onPress?: () => void }) => (
+const ActiveButton = ({ status, remainingMs, totalMs, finishTimestamp, onPress }: { status: TimerStatus, remainingMs?: number, totalMs?: number, finishTimestamp?: number, onPress?: () => void }) => (
   <TimerCircleButton variant="active" size={60} onPress={onPress}>
     <Annulus
       size={60}
       borderWidth={4}
-      end={percent}
+      totalMs={totalMs}
+      finishTimestamp={finishTimestamp}
+      paused={status === 'paused'}
       borderColor={theme.semantic.warning.strong}
     >
       {status === 'running' ? (

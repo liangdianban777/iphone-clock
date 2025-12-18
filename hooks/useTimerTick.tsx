@@ -13,7 +13,7 @@ export function useTimerTick(timer?: ActiveTimer) {
       clearTimeout(timeoutRef.current);
     }
 
-    if (!timer || timer.status !== 'running') return;
+    if (!timer) return;
 
     const tick = () => {
       const now = Date.now();

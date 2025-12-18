@@ -1,7 +1,6 @@
 import { create } from 'zustand';
 import { ActiveTimer, PresetTimer } from '@/types';
 import { nanoid } from 'nanoid/non-secure';
-import { getRemainingMs } from '@/util';
 
 interface ActiveTimerState {
   activeTimers: Record<string, ActiveTimer>;
@@ -10,6 +9,7 @@ interface ActiveTimerState {
   pauseTimer: (presetId: string) => void;
   resumeTimer: (presetId: string) => void;
   cancelTimer: (presetId: string) => void;
+  setLabel: (id: string, label: string) => void;
 }
 
 export const useActiveTimerStore = create<ActiveTimerState>((set, get) => ({
@@ -78,4 +78,20 @@ export const useActiveTimerStore = create<ActiveTimerState>((set, get) => ({
       const { [id]: _, ...rest } = state.activeTimers;
       return { activeTimers: rest };
     }),
+
+  // 传入 timer.id 传入lebel
+  setLabel: (id: string, label: string) => {
+    set((state) => ({
+      activeTimers: {
+        ...state.activeTimers,
+        [id]: {
+          ...state.activeTimers[id],
+          label,
+        },
+      },
+    }));
+  },
+
+
+
 }));

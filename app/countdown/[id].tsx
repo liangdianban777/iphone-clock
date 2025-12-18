@@ -4,27 +4,29 @@ import { Annulus, LoadingScreen } from '@/components/ui';
 import { theme } from '@/constants/constant';
 import { useTimerTick } from '@/hooks/useTimerTick';
 import { useActiveTimerStore } from '@/store';
+import { ActiveTimer } from '@/types';
 import { formatDurationDigital, formatTimeHM, getFinishTime, getRemainingMs } from '@/util';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
-import { useLocalSearchParams } from 'expo-router';
-import { useMemo, useState } from 'react';
+import { useLocalSearchParams, router } from 'expo-router';
+import { Fragment, useMemo, useState } from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 
 // 倒计时详情页面
 const CountDownDetail = () => {
-    const [label, setLabel] = useState('');
     const { id } = useLocalSearchParams<{ id: string }>();
     const timer = useActiveTimerStore(s => id ? s.activeTimers[id] : undefined);
     const pause = useActiveTimerStore(s => s.pauseTimer);
     const resume = useActiveTimerStore(s => s.resumeTimer);
-    
-    
-    const remaining = timer ? getRemainingMs(timer) : 0;
-    const percent = timer ? remaining / timer.total : 0;
-    console.log('🚀 ~ CountDownDetail ~ percent:', timer?.status, percent);
-    const finishTime = timer ? getFinishTime(timer) : 0;
-    
-    useTimerTick(timer);
+    const cancel = useActiveTimerStore(s => s.cancelTimer);
+    const setLabel = useActiveTimerStore(s => s.setLabel);
+
+    const finishTime = useMemo(() => timer ? getFinishTime(timer) : 0, [timer]);
+
+    const handleCancel = () => {
+        if (!timer) return;
+        cancel(timer.id);
+        router.back();
+    }
 
     if (!timer) return <LoadingScreen />;
 
@@ -33,20 +35,15 @@ const CountDownDetail = () => {
             <Annulus
                 size={280}
                 borderColor={theme.semantic.warning.strong}
-                end={percent}
+                totalMs={timer.total}
+                finishTimestamp={timer.status === 'running' ? finishTime : undefined}
+                paused={timer.status === 'paused'}
                 style={styles.annulus}
             >
-                <View style={styles.bellContainer}>
-                    <MaterialCommunityIcons name="bell" size={24} color={theme.colors.grey600} />
-                    <Text style={styles.bellText}>{formatTimeHM(finishTime)}</Text>
-                </View>
-
-                <View>
-                    <Text style={{ fontSize: 68, fontWeight: '300', color: theme.colors.white }}>{formatDurationDigital(remaining)}</Text>
-                </View>
+                <CountDownTextDisplay timer={timer} />
             </Annulus>
             <View style={styles.buttonsContainer}>
-                <CancelButton />
+                <CancelButton onPress={handleCancel} />
                 {
                     timer.status === 'running' ? (
                         <PauseButton content="暂停" onPress={() => pause(timer.id)} /> 
@@ -58,12 +55,37 @@ const CountDownDetail = () => {
             </View>
             <View style={{ paddingHorizontal: 18 }}>
                 <TimerSettingsCard
-                    label={label}
-                    onChangeLabel={setLabel}  
+                    label={timer.label}
+                    onChangeLabel={(label) => setLabel(timer.id, label)} 
                 />
             </View>
         </View>
     )
+}
+
+const CountDownTextDisplay = ({timer}: {timer: ActiveTimer}) => {
+    const remaining = getRemainingMs(timer);
+    const finishTime = getFinishTime(timer);
+
+    useTimerTick(timer);
+
+    console.log('countdowndisplay re-rendered', finishTime);
+
+    return (
+        <Fragment>
+            <View style={styles.bellContainer}>
+                <MaterialCommunityIcons name="bell" size={24} color={theme.colors.grey600} />
+                <Text style={styles.bellText}>{formatTimeHM(finishTime)}</Text>
+            </View>
+
+            <View>
+                <Text style={{ fontSize: 68, fontWeight: '300', color: theme.colors.white }}>
+                    {formatDurationDigital(remaining)}
+                </Text>
+            </View>
+        </Fragment>
+    )
+
 }
 
 const styles = StyleSheet.create({

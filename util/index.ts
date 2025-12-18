@@ -65,22 +65,35 @@ export function getRemainingMs(timer: ActiveTimer, now = Date.now()) {
 }
 
 export function getFinishTime(timer: ActiveTimer, now = Date.now()) {
-  return now + timer.startedAt + timer.total + timer.accumulatedPause;
+  if (timer.status !== 'running') {
+    console.log('111');
+    return timer.startedAt + timer.total + timer.accumulatedPause + now - timer.pausedAt!;
+  }
+    return timer.startedAt + timer.total + timer.accumulatedPause;
 }
 
 export const getNextTickDelayMs = (timer: ActiveTimer, now = Date.now()) => {
-  if (timer.status !== 'running') return null;
+  let delay = null;
+  
+  if (timer.status === 'running') {
+    const remainingMs = getRemainingMs(timer, now);
+    if (remainingMs <= 0) return null;
 
-  const remainingMs = getRemainingMs(timer, now);
-  if (remainingMs <= 0) return null;
+    // 你用的是 ceil(remainingMs/1000)，
+    // 那么当 remainingMs 从 (k*1000 + ε) 变成 (k*1000) 时，显示就会减 1
+    // 距离下一次变化的时间就是 remainingMs % 1000
+    const mod = remainingMs % 1000;
 
-  // 你用的是 ceil(remainingMs/1000)，
-  // 那么当 remainingMs 从 (k*1000 + ε) 变成 (k*1000) 时，显示就会减 1
-  // 距离下一次变化的时间就是 remainingMs % 1000
-  const mod = remainingMs % 1000;
+    // 如果刚好整除，说明马上就要跳变（或刚跳变），给一个很小的延迟避免 0ms 死循环
+    delay = mod === 0 ? 1000 : mod;
+  }
 
-  // 如果刚好整除，说明马上就要跳变（或刚跳变），给一个很小的延迟避免 0ms 死循环
-  const delay = mod === 0 ? 1000 : mod;
+  if (timer.status === 'paused') {
+    // 对齐到“下一分钟整点”
+    // const msToNextMinute = 60000 - (now % 60000);
+    // delay = msToNextMinute === 0 ? 60000 : msToNextMinute;
+    delay = 5000;
+  }
 
   return delay;
 }
