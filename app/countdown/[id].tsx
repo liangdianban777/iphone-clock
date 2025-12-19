@@ -69,8 +69,6 @@ const CountDownTextDisplay = ({timer}: {timer: ActiveTimer}) => {
 
     useTimerTick(timer);
 
-    console.log('countdowndisplay re-rendered', finishTime);
-
     return (
         <Fragment>
             <View style={styles.bellContainer}>

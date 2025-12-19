@@ -66,7 +66,6 @@ export function getRemainingMs(timer: ActiveTimer, now = Date.now()) {
 
 export function getFinishTime(timer: ActiveTimer, now = Date.now()) {
   if (timer.status !== 'running') {
-    console.log('111');
     return timer.startedAt + timer.total + timer.accumulatedPause + now - timer.pausedAt!;
   }
     return timer.startedAt + timer.total + timer.accumulatedPause;
