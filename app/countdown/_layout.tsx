@@ -1,9 +1,8 @@
-import { Stack, router } from 'expo-router'
+import { Stack, router, useLocalSearchParams } from 'expo-router'
 import { View, Text, Pressable } from 'react-native'
 import { Entypo } from '@expo/vector-icons'
 import { theme } from '@/constants/constant'
 import { useActiveTimerStore } from '@/store';
-import { useLocalSearchParams } from 'expo-router';
 import { formatDurationText } from '@/util';
 
 export default function CountdownLayout() {

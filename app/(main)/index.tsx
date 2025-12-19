@@ -4,7 +4,6 @@ import { theme } from '@/constants/constant';
 import { ScrollLockContext, ScrollLockContextValue } from '@/contexts/ScrollLockContext';
 import React, { useState } from 'react';
 import { ScrollView, StyleSheet, Text, View } from 'react-native';
-import { SafeAreaView } from 'react-native-safe-area-context';
 
 export default function Home() {
   const [scrollEnabled, setScrollEnabled] = useState(true);
@@ -16,22 +15,17 @@ export default function Home() {
 
   return (
     <ScrollLockContext.Provider value={value}>
-      <SafeAreaView style={styles.safe} edges={['top']}>
-        <ScrollView
-          style={styles.container}
-          scrollEnabled={scrollEnabled}
-        >
-          <View style={styles.titleContainer}>
-            <View style={styles.editButton}>
-              <Text style={styles.editButtonText}>编辑</Text>
-            </View>
-            <Text style={styles.titleText}>计时器</Text>
-          </View>
-          <CreateTimerSection />
-          <ActiveTimerSection />
-          <PresetTimerSection />
-        </ScrollView>
-      </SafeAreaView>
+      <ScrollView
+        style={styles.container}
+        scrollEnabled={scrollEnabled}
+      >
+        <View style={styles.titleContainer}>
+          <Text style={styles.titleText}>计时器</Text>
+        </View>
+        <CreateTimerSection />
+        <ActiveTimerSection />
+        <PresetTimerSection />
+      </ScrollView>
     </ScrollLockContext.Provider>
   );
 }
@@ -44,7 +38,7 @@ const styles = StyleSheet.create({
   safe: {
     flex: 1,
     backgroundColor: theme.colors.black,
-    // backgroundColor: 'blue', // 测试用
+    // backgroundColor: 'blue', // 测试用 
   },
   titleContainer: {
     alignItems: 'flex-start',
