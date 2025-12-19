@@ -2,8 +2,8 @@ import { TimerCircleButton } from '@/components/ui';
 import { theme } from '@/constants/constant';
 import { Text } from 'react-native';
 
-const StartButton = ({ content = '继续', onPress }: { content?: string; onPress?: () => void }) => (
-  <TimerCircleButton variant="success" size={70} onPress={onPress}>
+const StartButton = ({ content = '继续', disabled = false, onPress }: { content?: string; disabled?: boolean; onPress?: () => void }) => (
+  <TimerCircleButton variant="success" size={70} onPress={onPress} disabled={disabled}>
     <Text style={{ color: theme.semantic.success.strong, fontSize: 17, fontWeight: '600' }}>
       {content}
     </Text>

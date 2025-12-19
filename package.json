@@ -1,5 +1,5 @@
 {
-  "name": "iphone-clock-countdown",
+  "name": "iphone-clock",
   "main": "expo-router/entry",
   "version": "1.0.0",
   "scripts": {
