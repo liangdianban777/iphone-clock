@@ -1,8 +1,8 @@
-import { theme } from '@/constants/constant';
+import { theme } from '@/constants';
 import { PropsWithChildren, useEffect } from 'react';
 import { View, ViewStyle } from 'react-native';
+import Animated, { Easing, cancelAnimation, useAnimatedProps, useSharedValue, withTiming } from 'react-native-reanimated';
 import Svg, { Circle } from 'react-native-svg';
-import Animated, { useAnimatedProps, useSharedValue, withTiming, Easing, cancelAnimation } from 'react-native-reanimated';
 
 interface AnnulusProps {
   size?: number

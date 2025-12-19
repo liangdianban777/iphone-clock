@@ -29,3 +29,6 @@ export interface ActiveTimer {
   accumulatedPause: number; // ms，已暂停总时长
   remainingAtPaused?: number; // ms，暂停时剩余时长
 }
+
+const UNIT_TIME = ['second', 'minute', 'hour'] as const;
+export type UNIT_TIME = typeof UNIT_TIME[number];

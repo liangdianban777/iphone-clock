@@ -1,5 +1,5 @@
 import { Annulus, TimerCircleButton } from '@/components/ui';
-import { theme } from '@/constants/constant';
+import { theme } from '@/constants';
 import { TimerStatus } from '@/types';
 import { Fontisto } from '@expo/vector-icons';
 

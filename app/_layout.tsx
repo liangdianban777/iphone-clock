@@ -1,7 +1,7 @@
+import { theme } from '@/constants';
 import { Stack } from 'expo-router';
 import { StatusBar } from 'expo-status-bar';
-import { View, StyleSheet } from 'react-native';
-import { theme } from '@/constants/constant';
+import { StyleSheet, View } from 'react-native';
 
 export default function RootLayout() {
   return (

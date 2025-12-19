@@ -1,20 +1,20 @@
-import { theme } from '@/constants/constant';
+import { theme } from '@/constants';
 import * as Haptics from 'expo-haptics';
 import React, { useEffect, useRef } from 'react';
 import {
-    Platform,
-    StyleSheet,
-    Text,
-    View
+  Platform,
+  StyleSheet,
+  Text,
+  View
 } from 'react-native';
 import Animated, {
-    Extrapolation,
-    interpolate,
-    runOnJS,
-    SharedValue,
-    useAnimatedScrollHandler,
-    useAnimatedStyle,
-    useSharedValue
+  Extrapolation,
+  interpolate,
+  runOnJS,
+  SharedValue,
+  useAnimatedScrollHandler,
+  useAnimatedStyle,
+  useSharedValue
 } from 'react-native-reanimated';
 
 interface WheelPickerProps {
@@ -29,8 +29,8 @@ const WheelPicker: React.FC<WheelPickerProps> = ({
   items,
   value,
   onValueChange,
-  itemHeight = 44,
-  visibleItems = 5,
+  itemHeight = 34,
+  visibleItems = 7,
 }) => {
   const scrollY = useSharedValue(0);
   const flatListRef = useRef<Animated.FlatList<any>>(null);
@@ -206,7 +206,6 @@ const styles = StyleSheet.create({
     color: theme.colors.white,
     fontVariant: ['tabular-nums'], // Helps with number alignment
     textAlign: 'right', // Align numbers to the right
-    // transform: [{ translateX: -12 }], // Shift left to make room for label
   },
 });
 

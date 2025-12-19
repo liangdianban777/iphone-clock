@@ -1,12 +1,24 @@
-import { ActiveTimer } from '@/types'
+import { ActiveTimer, UNIT_TIME } from '@/types'
 
-function parseDuration(ms: number) {
+export function parseDuration(ms: number) {
   const sec = Math.max(0, Math.ceil(ms / 1000));
   const h = Math.floor(sec / 3600);
   const m = Math.floor((sec % 3600) / 60);
   const s = sec % 60;
 
   return { h, m, s };
+}
+
+export const getDuration = (integerNumber: number, unit: UNIT_TIME) => {
+  const basisMap: Record<UNIT_TIME, number> = {
+    second: 1000,
+    minute: 60 * 1000,
+    hour: 60 * 60 * 1000,
+  }
+
+    const basis = basisMap[unit];
+    const ms = basis * integerNumber;
+    return ms;
 }
 
 export function formatDurationClock(ms: number): string {

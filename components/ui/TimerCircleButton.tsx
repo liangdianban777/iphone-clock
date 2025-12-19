@@ -1,4 +1,4 @@
-import { theme } from '@/constants/constant';
+import { theme } from '@/constants';
 import { ScrollLockContext } from '@/contexts/ScrollLockContext';
 import React, { PropsWithChildren, useContext } from 'react';
 import { Pressable, StyleSheet, View } from 'react-native';

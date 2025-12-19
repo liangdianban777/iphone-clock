@@ -1,26 +1,38 @@
-import { Fragment, useState } from "react";
-import MyTimePicker from '@/components/MyTimePicker';
 import { TimerSettingsCard } from '@/components';
 import { CancelButton, StartButton } from '@/components/buttons';
-import { View, StyleSheet } from 'react-native';
-import { usePresetTimerStore, useActiveTimerStore } from "@/store";
+import { TimePickerView } from '@/components/ui';
+import { theme } from "@/constants";
+import { useDurationPicker } from "@/hooks/useDurationPicker";
+import { useActiveTimerStore, usePresetTimerStore } from "@/store";
 import { PresetTimer } from '@/types';
 import { nanoid } from 'nanoid/non-secure';
+import { Fragment, useState } from "react";
+import { StyleSheet, View } from 'react-native';
+
+const token = theme.component.timePicker;
 
 const CreateTimerSection = () => {
-    const [hour, setHour] = useState(0);
-    const [minute, setMinute] = useState(0);
-    const [second, setSecond] = useState(0);
-    const [label, setLabel] = useState('计时器');
-    
     const activeTimersLength = useActiveTimerStore(s => Object.keys(s.activeTimers).length)
+    
+    if (activeTimersLength > 0) {
+        return null;
+    }
+
+    return <CreateTimer />;
+    
+}
+
+export default CreateTimerSection;
+
+const CreateTimer = () => {
+    const picker = useDurationPicker();
+    const [label, setLabel] = useState('计时器');
+
     const start = useActiveTimerStore(s => s.startTimer);
     const add = usePresetTimerStore(s => s.addPreset);
 
-    const disabled = hour === 0 && minute === 0 && second === 0;
-
     const handleClickStart = () => {
-        const total = hour * 3600 * 1000 + minute * 60 * 1000 + second * 1000;
+        const total = picker.hour * 3600 * 1000 + picker.minute * 60 * 1000 + picker.second * 1000;
         const newTimer: PresetTimer = {
             id: nanoid(),
             label: label,
@@ -30,35 +42,31 @@ const CreateTimerSection = () => {
         }
         add(newTimer);
         start(newTimer);
-    }
-
-    if (activeTimersLength > 0) {
-        return null;
+        console.log('🚀 ~ handleClickStart ~ newTimer:', newTimer)
     }
 
     return (
         <Fragment>
-            <MyTimePicker
-                second={second}
-                minute={minute}
-                hour={hour}
-                onChangeSecond={setSecond}
-                onChangeMinute={setMinute}
-                onChangeHour={setHour}
+            <TimePickerView
+                second={picker.second}
+                minute={picker.minute}
+                hour={picker.hour}
+                onChangeSecond={picker.setSecond}
+                onChangeMinute={picker.setMinute}
+                onChangeHour={picker.setHour}
+                overlayBackgroundColor={token.overlay.dark}
             />
-            <View style={[styles.buttonsContainer]}>
+            <View style={styles.buttonsContainer}>
                 <CancelButton disabled={true} />
-                <StartButton content="开始计时" disabled={disabled} onPress={handleClickStart} />
+                <StartButton content="开始计时" disabled={picker.disabled} onPress={handleClickStart} />
             </View>
             <TimerSettingsCard
                 label={label}
                 onChangeLabel={setLabel}
             />
         </Fragment>
-    );
+    )
 }
-
-export default CreateTimerSection;
 
 const styles = StyleSheet.create({
     buttonsContainer: {

@@ -1,5 +1,5 @@
 import { TimerCircleButton } from '@/components/ui';
-import { theme } from '@/constants/constant';
+import { theme } from '@/constants';
 import { Text } from 'react-native';
 
 const StartButton = ({ content = '继续', disabled = false, onPress }: { content?: string; disabled?: boolean; onPress?: () => void }) => (

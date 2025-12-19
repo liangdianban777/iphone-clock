@@ -1,7 +1,7 @@
 import { Divider } from '@/components';
 import { PlayButton } from '@/components/buttons';
 import { TimerListItemRow, TimerListWrapper } from '@/components/wraps';
-import { theme } from '@/constants/constant';
+import { theme } from '@/constants';
 import { useActiveTimerStore } from '@/store';
 import { PresetTimer } from '@/types';
 import { formatDurationClock } from '@/util';
@@ -52,7 +52,7 @@ const styles = StyleSheet.create({
     titleText: {
         color: theme.semantic.text.primary,
         fontSize: 22,
-        fontWeight: 600,
+        fontWeight: 800,
         textAlign: 'left',
     },
 })
