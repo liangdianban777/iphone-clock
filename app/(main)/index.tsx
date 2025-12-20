@@ -1,32 +1,21 @@
 
+import { ScrollLockProvider } from '@/components';
 import { ActiveTimerSection, CreateTimerSection, PresetTimerSection } from '@/components/section';
-import { theme } from '@/constants/constant';
-import { ScrollLockContext, ScrollLockContextValue } from '@/contexts/ScrollLockContext';
-import React, { useState } from 'react';
-import { ScrollView, StyleSheet, Text, View } from 'react-native';
+import { theme } from '@/constants';
+import React from 'react';
+import { StyleSheet, Text, View } from 'react-native';
 
 export default function Home() {
-  const [scrollEnabled, setScrollEnabled] = useState(true);
-
-  const value: ScrollLockContextValue = {
-    lock: () => setScrollEnabled(false),
-    unlock: () => setScrollEnabled(true),
-  };
 
   return (
-    <ScrollLockContext.Provider value={value}>
-      <ScrollView
-        style={styles.container}
-        scrollEnabled={scrollEnabled}
-      >
-        <View style={styles.titleContainer}>
-          <Text style={styles.titleText}>计时器</Text>
-        </View>
-        <CreateTimerSection />
-        <ActiveTimerSection />
-        <PresetTimerSection />
-      </ScrollView>
-    </ScrollLockContext.Provider>
+    <ScrollLockProvider ScrollViewStyle={styles.container}>
+      <View style={styles.titleContainer}>
+        <Text style={styles.titleText}>计时器</Text>
+      </View>
+      <CreateTimerSection />
+      <ActiveTimerSection />
+      <PresetTimerSection />
+    </ScrollLockProvider>
   );
 }
 

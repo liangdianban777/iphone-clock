@@ -1,5 +1,5 @@
 import { TimerCircleButton } from '@/components/ui';
-import { theme } from '@/constants/constant';
+import { theme } from '@/constants';
 import { Fontisto } from '@expo/vector-icons';
 
 const PlayButton = ({ onPress }: { onPress?: () => void }) => (

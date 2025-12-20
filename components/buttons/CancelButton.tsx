@@ -1,5 +1,5 @@
 import { TimerCircleButton } from '@/components/ui';
-import { theme } from '@/constants/constant';
+import { theme } from '@/constants';
 import { Text } from 'react-native';
 
 const token = theme.component.button;

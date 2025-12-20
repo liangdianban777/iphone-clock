@@ -1,4 +1,4 @@
-import { theme } from '@/constants/constant';
+import { theme } from '@/constants';
 import React from 'react';
 import { ActivityIndicator, StyleSheet, Text, View } from 'react-native';
 

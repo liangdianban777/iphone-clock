@@ -1,7 +1,7 @@
 import { Divider } from '@/components/ui';
-import { theme } from '@/constants/constant';
+import { theme } from '@/constants';
 import React from 'react';
-import { StyleSheet, Text, View, Pressable } from 'react-native';
+import { Pressable, StyleSheet, Text, View } from 'react-native';
 
 const TimerListItemRow: React.FC<{
   primaryText: string;

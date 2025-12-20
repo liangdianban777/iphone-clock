@@ -1,14 +1,14 @@
 import { TimerSettingsCard } from '@/components';
 import { CancelButton, PauseButton, StartButton } from '@/components/buttons';
 import { Annulus, LoadingScreen } from '@/components/ui';
-import { theme } from '@/constants/constant';
+import { theme } from '@/constants';
 import { useTimerTick } from '@/hooks/useTimerTick';
 import { useActiveTimerStore } from '@/store';
 import { ActiveTimer } from '@/types';
 import { formatDurationDigital, formatTimeHM, getFinishTime, getRemainingMs } from '@/util';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
-import { useLocalSearchParams, router } from 'expo-router';
-import { Fragment, useMemo, useState } from 'react';
+import { router, useLocalSearchParams } from 'expo-router';
+import { Fragment, useMemo } from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 
 // 倒计时详情页面
