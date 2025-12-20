@@ -33,7 +33,8 @@ const WheelPicker: React.FC<WheelPickerProps> = ({
   visibleItems = 7,
 }) => {
   const scrollY = useSharedValue(0);
-  const flatListRef = useRef<Animated.FlatList<any>>(null);
+  // const flatListRef = useRef<Animated.FlatList<any>>(null);
+  const scrollViewRef = useRef<Animated.ScrollView>(null);
   const isMomentumScroll = useRef(false);
 
   // Calculate container height
@@ -44,17 +45,14 @@ const WheelPicker: React.FC<WheelPickerProps> = ({
   // Initial scroll position
   useEffect(() => {
     const index = items.indexOf(value);
-    if (index !== -1 && flatListRef.current) {
+    if (index !== -1 && scrollViewRef.current) {
       // We need to wait a bit for layout or run it immediately if mounted
       setTimeout(() => {
-        flatListRef.current?.scrollToOffset({
-          offset: index * itemHeight,
-          animated: false,
-        });
+        scrollViewRef.current?.scrollTo({ y: index * itemHeight, animated: false });
         scrollY.value = index * itemHeight;
       }, 50);
     }
-  }, []); // Only on mount or if value changes externally (handled below)
+  }, [value, items, itemHeight, scrollY]); // Only on mount or if value changes externally (handled below)
 
   // Sync external value changes if needed (optional, skipping for now to avoid loops)
 
@@ -90,6 +88,7 @@ const WheelPicker: React.FC<WheelPickerProps> = ({
   return (
     <View style={[styles.container, { height: containerHeight }]}>
       <Animated.ScrollView
+        ref={scrollViewRef}
         showsVerticalScrollIndicator={false}
         snapToInterval={itemHeight}
         decelerationRate="fast"

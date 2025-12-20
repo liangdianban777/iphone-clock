@@ -26,7 +26,7 @@ export default CreateTimerSection;
 
 const CreateTimer = () => {
     const picker = useDurationPicker();
-    const [label, setLabel] = useState('计时器');
+    const [label, setLabel] = useState('');
 
     const start = useActiveTimerStore(s => s.startTimer);
     const add = usePresetTimerStore(s => s.addPreset);
@@ -42,7 +42,6 @@ const CreateTimer = () => {
         }
         add(newTimer);
         start(newTimer);
-        console.log('🚀 ~ handleClickStart ~ newTimer:', newTimer)
     }
 
     return (

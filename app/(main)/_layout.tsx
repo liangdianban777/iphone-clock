@@ -17,7 +17,6 @@ export default function RootLayout() {
 
   const handleClickStart = () => {
     if (disabled || !draftTimer.duration) {
-      console.log('111');
       return;
     }
     const duration = draftTimer.duration;

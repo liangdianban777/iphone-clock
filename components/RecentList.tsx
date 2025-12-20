@@ -4,7 +4,7 @@ import { TimerListItemRow, TimerListWrapper } from '@/components/wraps';
 import { theme } from '@/constants';
 import { useActiveTimerStore } from '@/store';
 import { PresetTimer } from '@/types';
-import { formatDurationClock } from '@/util';
+import { formatDurationClock, formatDurationText } from '@/util';
 import { StyleSheet, Text, View } from 'react-native';
 
 const RecentList: React.FC<{ recentPresets: Record<string, PresetTimer> }> = ({ recentPresets }) => {
@@ -31,7 +31,7 @@ const RecentItem = ({timer}: { timer: PresetTimer }) => {
     return (
         <TimerListItemRow
           primaryText={formatDurationClock(timer.duration)}
-          secondaryText={timer.label}
+          secondaryText={timer.label === '' ? formatDurationText(timer.duration) : timer.label}
           rightSlot={<PlayButton onPress={() => start(timer)} />}
         />
     );
