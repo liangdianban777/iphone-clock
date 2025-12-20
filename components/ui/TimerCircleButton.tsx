@@ -1,6 +1,6 @@
 import { theme } from '@/constants';
 import { ScrollLockContext } from '@/contexts/ScrollLockContext';
-import React, { PropsWithChildren, useContext } from 'react';
+import React, { PropsWithChildren, useContext, useEffect } from 'react';
 import { Pressable, StyleSheet, View } from 'react-native';
 
 const SIZE = 70;
@@ -41,6 +41,13 @@ const TimerCircleButton: React.FC<TimerCircleButtonProps> = ({
             alignItems: 'center',
         }
     }).container;
+
+    // 组件卸载时解锁滚动
+    useEffect(() => {
+        return () => {
+            scrollLockContext?.unlock();
+        }
+    }, [scrollLockContext])
     return (
         <Pressable
             onPress={onPress}

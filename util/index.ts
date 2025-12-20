@@ -47,10 +47,10 @@ export function formatDurationDigital(ms: number): string {
 export function formatDurationText(ms: number): string {
   const { h, m, s } = parseDuration(ms);
   if (h > 0) {
-    return `${h}小时${String(m).padStart(2, '0')}分钟${String(s).padStart(2, '0')}秒`;
+    return `${h}小时${m === 0 ? '' : `${m}分钟`}${s === 0 ? '' : `${s}秒`}`;
   }
   if (m > 0) {
-    return `${m}分钟${String(s).padStart(2, '0')}秒`;
+    return `${m}分钟${s === 0 ? '' : `${s}秒`}`;
   }
   return `${s}秒`;
 }

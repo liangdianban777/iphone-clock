@@ -68,8 +68,6 @@ const Annulus: React.FC<PropsWithChildren<AnnulusProps>> = ({
     }
   })
 
-  // console.log('annulus re-rendered', progress.value);
-
   return (
     <View style={[{ width: size, height: size }, style]}>
       <Svg width={size} height={size} style={style}>

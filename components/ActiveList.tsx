@@ -4,7 +4,7 @@ import { TimerListItemRow, TimerListWrapper } from '@/components/wraps';
 import { useTimerTick } from '@/hooks/useTimerTick';
 import { useActiveTimerStore } from '@/store';
 import { ActiveTimer } from '@/types';
-import { formatDurationDigital, getFinishTime, getRemainingMs } from '@/util';
+import { formatDurationDigital, formatDurationText, getFinishTime, getRemainingMs } from '@/util';
 import { router } from 'expo-router';
 
 const ActiveList: React.FC<{ activeList: Record<string, ActiveTimer> }> = ({ activeList }) => {
@@ -47,7 +47,7 @@ const ActiveItem = ({timer}: { timer: ActiveTimer }) => {
     return (
         <TimerListItemRow
             primaryText={formatDurationDigital(remaining)}
-            secondaryText={timer.label}
+            secondaryText={timer.label === '' ? formatDurationText(timer.total) : timer.label}
             rightSlot={<ActiveButton status={timer.status} remainingMs={remaining} totalMs={timer.total} finishTimestamp={timer.status === 'running' ? finishTime : undefined} onPress={() => toggleButton(timer)} />}
             press={true}
             onPress={handleClick}

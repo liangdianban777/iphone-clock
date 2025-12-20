@@ -11,8 +11,8 @@ import React, { useState } from 'react';
 import { nanoid } from 'nanoid/non-secure';
 import { StyleSheet, Text, View } from 'react-native';
 import {
-   useActiveTimerStore,
-   usePresetTimerStore,
+  useActiveTimerStore,
+  usePresetTimerStore,
 } from '@/store';
 import { router } from 'expo-router';
 import { getDuration } from '@/util';
@@ -39,7 +39,7 @@ const presetList: {integerNumber: number, unit: UNIT_TIME}[] = [
 ];
 
 export default function Modal() {
-  const [label, setLabel] = useState('定时器');
+  const [label, setLabel] = useState('');
   const picker = useDurationPicker();
   const add = usePresetTimerStore(s => s.addPreset);
   const start = useActiveTimerStore(s => s.startTimer);
@@ -58,7 +58,7 @@ export default function Modal() {
     router.dismiss();
   }
 
-  // 同步草稿定时器，给 _layout.tsx 的 headerRight 用
+  // 同步草稿定时器给 _layout.tsx
   useSyncDraftTimer(label, picker);
   
   return (
